@@ -4,10 +4,10 @@ import matplotlib.animation as animation
 
 dt = 0.01  # time step
 steps = 1000  # number of time steps
-speed = 10  # speed of particles
-nx, ny = 10, 10 # create a grid with a particle at each point
-x = np.linspace(-10, 10, nx)
-y = np.linspace(-10, 10, ny)
+speed = 20  # speed of particles
+nx, ny = 15, 15 # create a grid with a particle at each point
+x = np.linspace(-8, 8, nx)
+y = np.linspace(-8, 8, ny)
 X, Y = np.meshgrid(x, y)
 r = []
 v=[]
@@ -16,8 +16,8 @@ for i in range(nx):
         r.append([X[i,j], Y[i,j]]) # intial positions
         
         # randomize velocity components
-        x = np.random.uniform(0,10) 
-        y = np.random.uniform(0,10)  
+        x = np.random.uniform(-10,10) 
+        y = np.random.uniform(-10,10)  
         v.append([x,y]/np.sqrt(x**2+y**2))  # Try to replace later with a bell curve distribution
 r = np.array(r)
 v = speed*np.array(v)
@@ -45,10 +45,11 @@ for _ in range(steps):
 trajectories = np.array(trajectories)
 
 #animation setup
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(6,6), dpi=200)
 ax.set_xlim(-10,10)
 ax.set_ylim(-10,10)
 ax.set_aspect('equal')
+ax.axis('off')
 
 dots = []
 for i in range(len(r)-1):
@@ -71,4 +72,4 @@ def init():
 
 ani = animation.FuncAnimation(fig, update, frames=len(trajectories), init_func=init, blit=True, interval=10)
 
-ani.save("Brownian_motion.mp4", fps=30, extra_args=['-vcodec', 'libx264'])
+ani.save("Brownian_motion.mp4", fps=60, extra_args=['-vcodec', 'libx264'])

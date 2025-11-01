@@ -7,8 +7,8 @@ k = 8.99e9  # N m^2/C^2, Coulomb's constant
 #array of charges and their postions
 charges = [
    
-    (2,0,1),
-    (-2,0,-3),
+    (1,0,1),
+    (-0.5,0,-2),
 ]
 
 nx,ny =200,200
@@ -32,8 +32,6 @@ E = np.sqrt(Ex**2 + Ey**2) #magnitude of the electric field
 
 fig,ax = plt.subplots(figsize=(7,7))
 ax.axis('off')
-fig, ax = plt.subplots()
-
 
 ax.streamplot(
     X,Y,

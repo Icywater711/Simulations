@@ -4,7 +4,7 @@ import matplotlib.animation as animation
 
 # constants
 N = 20  # number of spheres
-v = 3.0  # speed of sphere
+v = 5.0  # speed of sphere
 L = 40.0  # length of the box
 particles = []
 dt = 0.01  # time step
@@ -21,11 +21,18 @@ trajectories= [particles.copy()]
 for _ in range(steps):
     for i in range(N):
         if i < N-1:
-            if particles[i][0] > particles[i+1][0]-1:
+            if particles[i][0] > particles[i+1][0]-1 and particles[i][1] > 0:
                 particles[i][1] = 0
                 particles[i+1][1]= v
+            if particles[i][0] < particles[i-1][0]+1 and particles[i][1] < 0:
+                particles[i][1] = 0
+                particles[i-1][1]= -v
         elif i== N-1:
             break
+        if particles[i][0] >= 40:
+            particles[i][1] = -v # reverse direction on hitting right wall
+        if particles[i][0] <= 0:
+            particles[i][1] = v  # reverse direction on hitting left wall
     particles[:,0] += particles[:, 1]*dt
     trajectories.append(particles.copy())
 
@@ -34,8 +41,8 @@ trajectories = np.array(trajectories)
 
 
 #animation setup
-fig, ax = plt.subplots(figsize=(10,10), dpi=300)
-ax.set_xlim(0,40)
+fig, ax = plt.subplots(figsize=(10,10), dpi=100)
+ax.set_xlim(0,50)
 ax.set_ylim(-20,20)
 ax.set_aspect('equal')
 ax.axis('off')

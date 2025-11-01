@@ -3,22 +3,22 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation 
 
 #constants
-k = 10000 # N m²/C², edited Coulomb's constant for better animation
+k = 12000 # N m²/C², edited Coulomb's constant for better animation
 masses = (1)  # masses in kg
 dt = 0.002  # time step
-steps = 2500  # number of time steps
+steps = 1000  # number of time steps
 
 charges = [
-    [-1 ,[1.0, 0.0], [0.0, 1.0]],
-    [-1, [-1.0, 0.0], [0.0, -1.0]],
-    [1, [0.0, 1.0], [-1.0, 0.0]],
-    [1, [0.0, -1.0], [1.0, 0.0]]
+    [-1.75,[1.0, 0.0], [0.0, 1.0]],
+    [-1.75, [-1.0, 0.0], [0.0, -1.0]],
+    [1.75, [0.0, 1.0], [-1.0, 0.0]],
+    [1.75, [0.0, -1.0], [1.0, 0.0]]
 ]
 r=[]
 v=[]
 for i in range(len(charges)):
-    r.append(7*np.array(charges[i][1]))
-    v.append(10*np.array(charges[i][2]))    
+    r.append(10*np.array(charges[i][1]))
+    v.append(20*np.array(charges[i][2]))    
 r = np.array(r)
 v = np.array(v)
 
@@ -56,7 +56,7 @@ for _ in range(steps):
 trajectories = np.array(trajectories) 
 
 #animation setup
-fig, ax = plt.subplots(figsize=(10,10), dpi=300)
+fig, ax = plt.subplots(figsize=(10,10), dpi=100)
 ax.set_xlim(-20,20)
 ax.set_ylim(-20,20)
 ax.set_aspect('equal')
@@ -89,6 +89,6 @@ ani = animation.FuncAnimation(
     fig, update, frames=len(trajectories),
     init_func = init, blit = True, interval = 2
 )
-ani.save("Electrodynamics.mp4", fps=120, extra_args=['-vcodec', 'libx264'])
+ani.save("Electrodynamics.mp4", fps=60, extra_args=['-vcodec', 'libx264'])
 
 
