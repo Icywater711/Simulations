@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation 
+import math
 
 # constants
-M = 1000.0 # mass of the block
+M = 500.0 # mass of the block
 m = 1.0  # mass of the ball
 dt = 0.01  # time step
 steps = 5000  # number of time steps
@@ -38,6 +39,9 @@ for _ in range(steps):
     trajectories.append(r.copy())
 
 trajectories = np.array(trajectories)
+
+print("Total number of collisions:", math.floor(np.pi/4*np.sqrt(M/m)), 'collisions')
+print("Closest approach of block to wall:", 19.0*np.sqrt(m/M), 'meters')
 
 #animation setup
 fig, ax = plt.subplots(figsize=(8,8), dpi=300)
