@@ -4,29 +4,30 @@ import matplotlib.animation as animation
 import math
 
 # constants
-M = 500.0 # mass of the block
+M = 1000.0 # mass of the block
 m = 1.0  # mass of the ball
 dt = 0.01  # time step
-steps = 5000  # number of time steps
+steps = 3000  # number of time steps
 x = 2.5  # size of the block and ball
 
 # intial conditions
 r =np.array([-3.0, 0.0]) # position of the block and ball respectively
 v = np.array([10.0, 0.0])  # velocity of the block and ball respectively
-N = np.array([[ M-m, -2*m],[2*M, M-m]])/(M+m)  # collision matrix
-trajectories = []
+N = np.array([[ M-m, -2*m],[2*M, M-m]])/(M+m)  # collision matrix 
 
+trajectories = []
 
 for _ in range(steps):
 
     d = r[1]-r[0]  # distance between block and ball
 
-    if d <= x:  # collision detected
+    if d <= x and v[0]>0:  # collision detected before block speed flips
         v = N @ abs(v) 
 
-    if d <= x and m*v[1] > M*v[0]: 
+    if d <= x and v[0]<0:  # collision detected after block speed flips
+        v[1] = abs(v[1])
         v = N @ v
-    
+
     if r[1] >= 19:  # ball hits the wall
         v[1] = -v[1]  # reverse ball velocity
 
@@ -40,7 +41,7 @@ for _ in range(steps):
 
 trajectories = np.array(trajectories)
 
-print("Total number of collisions:", math.floor(np.pi/4*np.sqrt(M/m)), 'collisions')
+print("Total number of collisions:", np.pi/(2*np.arctan(2*np.sqrt(M*m)/(M-m))), 'collisions')
 print("Closest approach of block to wall:", 19.0*np.sqrt(m/M), 'meters')
 
 #animation setup
