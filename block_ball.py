@@ -4,7 +4,7 @@ import matplotlib.animation as animation
 import math
 
 # constants
-M = 1000.0 # mass of the block
+M = 100.0*np.pi # mass of the block
 m = 1.0  # mass of the ball
 dt = 0.01  # time step
 steps = 3000  # number of time steps
@@ -28,10 +28,15 @@ for _ in range(steps):
         v[1] = abs(v[1])
         v = N @ v
 
+    r += v*dt  # update positions
+    if r[0] <= -17.5:  # block hits the wall
+        v[0] = -v[0]  # reverse block velocity
+        r[0] = -17.5  # prevent block from going past wall
+
     if r[1] >= 19:  # ball hits the wall
+        r[1] = 19
         v[1] = -v[1]  # reverse ball velocity
 
-    r += v*dt  # update positions
     if r[1]<= r[0]+x:  # prevent overlap
         r[1] = r[0]+x
 
@@ -56,6 +61,8 @@ fig.patch.set_facecolor("black")
 block, = ax.plot([], [], 's', markersize=50, color='blue')
 ball, = ax.plot([], [], 'o', markersize=8, color='red')
 line = ax.plot([19.5,19.5], [-20,20], color='white', linewidth=2)
+line2 = ax.plot([-20,-20], [-20,20], color='white', linewidth=2)
+
 def update(frame):
     block.set_data([trajectories[frame, 0]], [0])
     ball.set_data([trajectories[frame, 1]], [0])
